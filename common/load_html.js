@@ -416,7 +416,6 @@ export default class load_html{
             <li class="parent-left menu_account">
                 <a href="#">${sessionStorage.getItem("us_name")}</a>
                 <ul class="child">
-                    // <li><a href="#" id="to_manage">Quản lý</a></li>
                     <li><a href="#change_users" class="link_reload">Thay đổi thông tin</a></li>
                     <li><a href="#change_password" class="link_reload" >Đổi mật khẩu</a></li>
                     <li><a href="#list_order" class="link_reload">Đơn đặt hàng</a></li>
