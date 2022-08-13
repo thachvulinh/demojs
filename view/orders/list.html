@@ -1,0 +1,44 @@
+<div class="content">
+    <div class="container-fluid  pt-4 pb-4">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card mt-3" style="min-height:400px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Danh sách đơn đặt hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="btn-group mb-3" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-danger btn_group_orders" data-status="-3">Tất cả</button>
+                            <button type="button" class="btn btn_group_orders"  data-status="0">Chờ thanh toán</button>
+                            <button type="button" class="btn btn_group_orders"  data-status="1">Chờ vận chuyển</button>
+                            <button type="button" class="btn btn_group_orders"  data-status="2">Chờ giao hàng</button>
+                            <button type="button" class="btn btn_group_orders"  data-status="3">Chờ đánh giá</button>
+                            <button type="button" class="btn btn_group_orders"  data-status="4">Đã giao hàng</button>
+                            <button type="button" class="btn btn_group_orders"  data-status="-2">Đổi trả</button>
+                            <button type="button" class="btn btn_group_orders"  data-status="-1">Hủy đơn</button>
+                        </div>
+                        
+                        <table id="table_cart" class="table table-bordered " >
+                            <thead>
+                                <tr>
+                                    <th style="width:55%">Thông tin sản phẩm</th>
+                                    <th style="width:10%">Số lượng</th>
+                                    <th style="width:15%">Giá ship</th>
+                                    <th style="width:20%">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_list_orders_users">
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="loader" id="loader"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="loading_fullpage" id="loading_fullpage">Loading&#8230;</div> -->

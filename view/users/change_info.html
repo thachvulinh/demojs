@@ -1,0 +1,145 @@
+<div class="content">
+    <div class="container-fluid ">
+        <div class="row" >
+            <div class="col-md-12 mt-4 mb-4" >
+                <div class="card" >
+                    <div class="card-header">
+                        <h3 class="card-title">Thông tin khách hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="alert_error_total"></div>
+                        <form id="form_users_info"  enctype="multipart/form-data">
+                            <input type="hidden" name="id" id="id" />
+                            <input type="hidden" name="_avatar" id="_avatar" />
+                            <input type="hidden" name="_bgavatar" id="_bgavatar" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="text-center ">
+                                            <div class="position-static border" style="height: 200px;" id="preview_bgavatar">
+                                                <label for="bgavatar" style="position: absolute;right: 5px;top: 5px;">
+                                                    <span class="rounded" style="background-color: #F195B2; padding: 5px;cursor: pointer;color: aliceblue;margin: 22px 20px;">Thay đổi</span>
+                                                   <input type="file" name="bgavatar" id="bgavatar" style="display: none;" onchange="common.select_file_upload(this,1,'#preview_bgavatar','#_bgavatar')" >
+                                               </label>
+                                                <label for="avatar">
+                                                    <input type="file" name="avatar" id="avatar" style="display: none;"  onchange="common.select_file_upload(this,0,'#preview_avatar','#_avatar')">
+                                                    <img id="preview_avatar" class="position-absolute rounded-circle bg-white " src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/640px-User_icon_2.svg.png" style="width:120px;height:120px;border:thin groove red;top: 91px;left: 45px;cursor: pointer;"  >
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name"> Họ và tên </label>
+                                        <input type="text" name="name" id="name" class="form-control">
+                                        <small class="error_item text-danger" id="name_error"><span></span></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email"> Email</label>
+                                        <input type="text" name="email" id="email"  class="form-control">
+                                        <small class="error_item text-danger" id="email_error"><span></span></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone"> Điện  thoại</label>
+                                        <input type="text" name="phone" id="phone"  class="form-control">
+                                        <small class="error_item text-danger" id="phone_error"><span></span></small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>
+                        <button class="btn-hover color-2 float-right" id="submit_btn_update_users" >Cập nhật</button>
+                        
+                        <!-- id="submit_btn_update_users" -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-4 mb-4">
+                <div class="card" >
+                    <div class="card-header">
+                        <h3 class="card-title">Địa chỉ giao hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="f_users_address" style="display:none;">
+                            <div id="alert_error_total_address"></div>
+                            <form id="form_users_address" >
+                                <input type="hidden" name="id" id="id_address"/>
+                                <input type="hidden" name="user_id" id="user_id" />
+                                <input type="hidden" name="value_province_city" id="value_province_city"/>
+                                <input type="hidden" name="value_district" id="value_district"/>
+                                <input type="hidden" name="value_wards" id="value_wards"/>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name_address">Tên người nhận</label>
+                                            <input type="text" class="form-control" name="name" id="name_address" aria-describedby="error_name_address" placeholder="Tên người nhận">
+                                            <small class="error_item text-danger" id="name_address_error"><span></span></small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phone_address">Số điện thoại</label>
+                                            <input type="text" class="form-control" name="phone" id="phone_address" aria-describedby="error_phone" placeholder="Số điện thoại">
+                                            <small class="error_item text-danger" id="phone_address_error"><span></span></small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="address">Địa chỉ nhận hàng</label>
+                                            <textarea class="form-control" name="address" id="address" rows="5" aria-describedby="error_address"></textarea>
+                                            <small class="error_item text-danger" id="address_error"><span></span></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="province_city">Tỉnh/ Thành phố</label>
+                                            <select class="form-control" name="province_city" id="province_city" aria-describedby="error_province_city" onchange="common.loaddistrict('#district','',this,'#wards');common.update_address()"></select>
+                                            <small class="error_item text-danger" id="province_city_error"><span></span></small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="district">Quận/ Huyện</label>
+                                            <select class="form-control" name="district" id="district" aria-describedby="error_district" onchange="common.loadwards('#wards','','#province_city',this);common.update_address()"></select>
+                                            <small class="error_item text-danger" id="district_error"><span></span></small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="wards">Phường/ Xã</label>
+                                            <select class="form-control" name="wards" id="wards"  aria-describedby="error_wards" onchange="common.update_address()"></select>
+                                            <small class="error_item text-danger" id="wards_error"><span></span></small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="type">Lựa chọn tên cho địa chỉ thường dùng:</label></br/>
+                                            <label for="home">
+                                                <input type="radio" name="type" id="home" value="home" checked > Nhà riêng
+                                            </label>
+                                            <label for="works" class="ml-5">
+                                                <input type="radio" name="type" id="works" value="works"> Văn phòng
+                                            </label>
+                                            <small class="error_item text-danger" id="type_error"><span></span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <button class="btn-hover color-2 float-right mb-3" id="submit_btn_address_users">Lưu</button>
+                        </div>
+                        <div id="table_address_ship">
+                            <table class="table table-bordered table-striped "  style="font-size: 12px;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            <button  class="btn btn-primary btn-sm" onclick="common.info_user_address_form('')"> <i class="fa fa-plus"></i></button>
+                                        </th>
+                                        <th class="text-center">Họ tên/ Điện thoại</th>
+                                        <th class="text-center">Địa chỉ</th>
+                                        <th class="text-center">Giao hàng</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="body_table_address_users"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            
+        </div>
+       
+    </div>
+</div>
+<div class="loading_fullpage" id="loading_fullpage" >Loading&#8230;</div>

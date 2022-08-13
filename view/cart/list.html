@@ -1,0 +1,42 @@
+<div class="content">
+    <div class="container-fluid  pt-4 pb-4">
+        <div class="row ">
+            <div class="col-md-8">
+                <div class="card" style="min-height:500px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Danh sách giỏ hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="table_list_cart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card "  style="min-height:500px;" >
+                    <div class="card-header">
+                        <h3 class="card-title">Tổng giá giỏ hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="_total_delivery_prices" >
+                        <input type="hidden" id="_total_price_temp" >
+                        <input type="hidden" id="_total_price" >
+                        <h1><b>Giá giao hàng:</b> <span id="total_delivery_prices"></span> </h1>
+                        <h1><b>Tổng giỏ hàng:</b> <span id="total_price_temp"></span> </h1>
+                        <h1><b>Tổng cộng giá:</b> <span id="total_price"></span> </h1>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button id="cart_submit" class="btn-hover color-7 btn-block p-3 p-3">Tiến hành thanh toán</button>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" class="btn-hover color-9 btn-block p-3 p-3 link_reload">Tiếp tục mua hàng</a>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+<div class="loading_fullpage" id="loading_fullpage">Loading&#8230;</div>
