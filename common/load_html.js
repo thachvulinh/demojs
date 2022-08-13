@@ -585,7 +585,7 @@ export default class load_html{
                         </tr>
                         `;
                         total_delivery_prices+= 0;
-                        total_price_temp+= parseInt(item["price"]);
+                        total_price_temp+= parseInt(item["price"] * item["quantity"]);
 
                     });
                 }

@@ -198,7 +198,7 @@ export default class  users_ctr{
         $("#phone").val(sessionStorage.getItem('us_phone'));
         $("#email").val((sessionStorage.getItem('us_email') == "undefined"?'':sessionStorage.getItem('us_email')));
         $("#preview_avatar").attr('src',sessionStorage.getItem('us_avatar'));
-        $("#preview_bgavatar").css("background",'url(' + sessionStorage.getItem('us_bgavatar') + ')');
+        $("#preview_bgavatar").css("background-image",'url(' + sessionStorage.getItem('us_bgavatar') + ')');
         $("#preview_bgavatar").css("background-size",'100% 100%');
         setTimeout(function(){
             (document.getElementById('loading_fullpage')?document.getElementById('loading_fullpage').style.display="none":'');
