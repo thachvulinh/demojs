@@ -30,6 +30,8 @@ setTimeout(function(){
     c_users_ctr.event_changepassword();
     c_users_ctr.event_update_info_users();
     c_users_ctr.event_submit_btn_address_users();
+    c_orders_ctr.event_canncel_orders_users();
+    c_orders_ctr.event_btn_submit_ok_canncel_orders();
 
     c_product_ctr.event_create_orders();
     var page_search=1;

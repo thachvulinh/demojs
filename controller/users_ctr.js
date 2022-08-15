@@ -36,7 +36,6 @@ export default class  users_ctr{
                     sessionStorage.setItem("us_email",result["data"]["email"]);
                     sessionStorage.setItem("us_phone",result["data"]["phone"]);
                     sessionStorage.setItem("us_rank_id",result["data"]["rank_id"]);
-                    console.log(result["data_address"]);
                     if(result["data_address"]["use_shipping"]){
                         sessionStorage.setItem("us_address_ship",result["data_address"]["use_shipping"]["address"]);
                         sessionStorage.setItem("us_postcode",result["data_address"]["use_shipping"]["value_province_city"]+" - "+ result["data_address"]["use_shipping"]["value_district"]+" - "+ result["data_address"]["use_shipping"]["value_wards"]);
@@ -198,7 +197,7 @@ export default class  users_ctr{
         $("#phone").val(sessionStorage.getItem('us_phone'));
         $("#email").val((sessionStorage.getItem('us_email') == "undefined"?'':sessionStorage.getItem('us_email')));
         $("#preview_avatar").attr('src',sessionStorage.getItem('us_avatar'));
-        $("#preview_bgavatar").css("background-image",'url(' + sessionStorage.getItem('us_bgavatar') + ')');
+        $("#preview_bgavatar").css("background-image","url('" + sessionStorage.getItem('us_bgavatar') + "')");
         $("#preview_bgavatar").css("background-size",'100% 100%');
         setTimeout(function(){
             (document.getElementById('loading_fullpage')?document.getElementById('loading_fullpage').style.display="none":'');

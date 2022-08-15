@@ -16,6 +16,7 @@ export function router(href,cateid,current,page,data){
     var href_param = href.replace(constant.url_default,'');
     var param='';
     if(href_param!=""){
+       
         var length_href=href_param.length;
         var index_key = href_param.indexOf("?");
         if(index_key==-1){
@@ -76,18 +77,27 @@ export function router(href,cateid,current,page,data){
         setTimeout(function(){c_cart_str.load_page_list_cart();},1000)
     }
     else if(param=='create_order'){
-        let c_orders_str=new orders_ctr(data);
+        let c_orders_str=new orders_ctr(data,'');
         c_func.load_html('./view/orders/create.html',document.getElementById('content'),"");
         $('.ctr_class').remove();
         c_func.dynamicallyLoadScript('./controller/orders_ctr.js');
         setTimeout(function(){c_orders_str.load_page_create();},1000)
     }
     else if(param=='list_order'){
-        let c_orders_str=new orders_ctr(data);
+        let c_orders_str=new orders_ctr(data,'');
         c_func.load_html('./view/orders/list.html',document.getElementById('content'),"");
         $('.ctr_class').remove();
         c_func.dynamicallyLoadScript('./controller/orders_ctr.js');
         setTimeout(function(){c_orders_str.load_page_list();},1000)
+    }
+    else if(param == "order_details"){
+        check_login();
+        var id=param_href["id"];
+        let c_orders_str=new orders_ctr(data,id);
+        c_func.load_html('./view/orders/detail.html',document.getElementById('content'),"");
+        $('.ctr_class').remove();
+        c_func.dynamicallyLoadScript('./controller/orders_ctr.js');
+        setTimeout(function(){c_orders_str.load_page_order_details();},1000)
     }
     else if(param=='change_password'){
         c_func.load_html('./view/users/change_password.html',document.getElementById('content'),"");
@@ -101,12 +111,7 @@ export function router(href,cateid,current,page,data){
         c_func.dynamicallyLoadScript('./controller/users_ctr.js');
     }
     else if(param=="change_users"){
-        if(!sessionStorage.getItem('us_id')){
-            common.Sweet_Notifi("error", "Thông Báo", "Bạn chưa đăng nhập. Đã chuyển qua trang đăng nhập để tiếp tục","OK", "#3085d6", "error");
-            router("login");
-            location.href=constant.url_default+'login';
-            return;
-        }
+        check_login();
         c_func.load_html('./view/users/change_info.html',document.getElementById('content'),"");
         $('.ctr_class').remove();
         c_func.dynamicallyLoadScript('./controller/users_ctr.js');
@@ -130,4 +135,12 @@ export function update_link_load(){
             router(this.href,cateid,current,page,null);
         }
     });
+}
+export function check_login(){
+    if(!sessionStorage.getItem('us_id')){
+        common.Sweet_Notifi("error", "Thông Báo", "Bạn chưa đăng nhập. Đã chuyển qua trang đăng nhập để tiếp tục","OK", "#3085d6", "error");
+        setTimeout(function(){router("login");},800)
+        location.href=constant.url_default+'login';
+        return;
+    }
 }

@@ -1,0 +1,56 @@
+<div class="content">
+    <div class="container-fluid  pt-4 pb-4">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card mt-3" style="min-height:400px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Thông tin sản phẩm</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="info_orders_details"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mt-3" style="min-height:400px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Thông tin người đặt hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="info_ship_orders"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mt-3" style="min-height:400px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Thông tin người giao hàng</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="info_shop"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal_cancel_orders"  class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Hủy đơn đặt hàng</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <textarea name="reason" id="reason" class="form-control"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button"  id="btn_submit_ok_canncel_orders" class="btn btn-primary">Đồng ý</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- <div class="loading_fullpage" id="loading_fullpage">Loading&#8230;</div> -->

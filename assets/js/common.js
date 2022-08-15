@@ -1,4 +1,4 @@
-var url_server = 'https://onlineshop-server.herokuapp.com'; 
+var url_server =  'https://onlineshop-server.herokuapp.com'; 
 $('.money_vi').mask("###,###,###,###", { reverse: true });
 var common = {
     init: function () { },

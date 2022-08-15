@@ -617,6 +617,7 @@ export default class load_html{
                     <span><b>Email:</b> ${sessionStorage.getItem('us_email')}</span><br/>
                     <span><b>Điên thoại:</b> ${sessionStorage.getItem('us_phone')}</span><br/>
                     <span><b>Địa chỉ giao hàng: </b></span><br/>
+
                 </div>
             </div>
         `;
@@ -627,7 +628,7 @@ export default class load_html{
         if(JSON.stringify(data)!="[]"){
             data.forEach((item,key)=>{
                 html+=`
-                <tr>
+                <tr >
                     <td >
                         <div style="float:left; width:80px;">
                             <img src="${item["image"]}" style="width:100%;">
@@ -637,9 +638,12 @@ export default class load_html{
                             <span>Giá bán: ${common.number_format(item["price"])}</span>
                         </div>
                     </td>
-                    <td style="witdh:10%">${item["quantity"]}</td>
-                    <td style="witdh:15%">${item["str_delivery_price"]}</td>
-                    <td style="width:20%">${item["str_status"]}</td>
+                    <td>${item["quantity"]}</td>
+                    <td>${item["str_delivery_price"]}</td>
+                    <td>${item["str_status"]}</td>
+                    <td>
+                        <a href="#order_details?id=${item['_id']}"  class="btn-hover color-5 link_reload">chi tiết </a>
+                    </td>
                 </tr>
                 `;
             }); 
@@ -647,7 +651,7 @@ export default class load_html{
         else{
             html+= `
             <tr>
-                <td colspan="4" class="text-center">Không có đơn hàng</td>
+                <td colspan="5" class="text-center">Không có đơn hàng</td>
             </tr>
             `
         }   
@@ -683,6 +687,7 @@ export default class load_html{
                             <input type="radio" name="use_billing" ${(item.use_billing==1?'checked':'')} onchange="common.update_address_use_shipping_billing(this,'${sessionStorage.getItem('us_id')}','billing')" value="${item._id}" /> Thanh toán
                         <label>
                     </td>
+                    
                 </tr>
                `;
             })
@@ -692,5 +697,51 @@ export default class load_html{
         }
         
         return html;
+    }
+    load_info_orders_details(data,id_product,id_ship,info_shop){
+        $(id_product).html(`
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="${data["info"]["image"]}" class="w-100" />
+                </div>
+                <div class="col-md-8">
+                    <input type="hidden" id="order_id" name="order_id" value="${data["info"]["_id"]}" >
+                    <h2 class="font-weight-bold">${data["info"]["name"]}</h2>
+                    <h3>Mã đơn hàng : ${data["info"]["_id"]}</h3>
+                    <h4>Số lượng : ${data["info"]["str_quantity"]}</h4>
+                    <h4>Giá bán: ${data["info"]["str_price"]}</h4>
+                    <h4>Giao hàng : ${data["info"]["str_delivery_price"]}</h4>
+                    <h4>Thành tiền: ${data["info"]["str_total_price"]}</h4>
+                    <h4>Trạng thái thanh toán: ${data["info"]["paid"]}</h4>
+                    <h4>Cách thức thanh toán: ${data["info"]["payment"]}</h4>
+                    <h4>Thời gian đặt hàng: ${data["info"]["createdAt"]}</h4>
+                    <h4>Trạng thái đơn hàng: ${data["info"]["str_status"]}</h4>
+                    <div>
+                        ${(data["info"]["status"]!="-2" || data["info"]["status"]!="-1"  ?'<button id="canncel_orders_users" class="btn-hover color-2">Hủy đơn hàng</button>':'')}
+                        <a href="#list_order" class="btn-hover color-2 link_reload">Quay lại danh sách</a>
+                    </div>
+                </div>
+            </div>
+        `);
+        $(id_ship).html(`
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Người đặt hàng: ${data["info"]["receiver"]}</h3>
+                    <h4>Số điện thoại : ${data["info"]["receiver_phone"]}</h4>
+                    <h4>Địa chỉ giao hàng: ${data["info"]["receiver_address"]}</h4>
+                    <h4>PostCode: ${data["info"]["receiver_postcode"]}</h4>
+                </div>
+            </div>  
+
+        `);
+        $(info_shop).html(`
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Chủ cửa hàng: ${data["info"]["product_shop"]["name"]}</h3>
+                <h4>Email : ${data["info"]["product_shop"]["email"]}</h4>
+                <h4>Điện thoại: ${data["info"]["product_shop"]["phone"]}</h4>
+            </div>
+        </div> 
+        `);
     }
 }

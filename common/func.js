@@ -58,6 +58,28 @@ export default  class func{
               xmlhttp.send();
             });
     }
+    // res.setHeader('Access-Control-Allow-Origin', '*');
+    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // res.setHeader('Access-Control-Allow-Credentials', true);
+    get_api_example(url,token){
+      let h=new Headers();
+      h.append('Authentication',`Bearer ${token}`);
+      h.append('Access-Control-Allow-Origin',`*`);
+      h.append('Access-Control-Allow-Methods',`GET, POST, OPTIONS, PUT, PATCH, DELETE`);
+      h.append('Access-Control-Allow-Headers',`X-Requested-With,content-type`);
+      h.append('Access-Control-Allow-Credentials',`true`);
+      let req =new Request(url,{
+        method:'GET',
+        mode :'no-cors',
+        headers:h
+      })
+      fetch(req)
+      .then(resp =>resp.json())
+      .catch(err=>{
+        console.error(err.message);
+      })
+    }
     async get_api2(url,token){
         try{
             const response = await fetch(url, { 

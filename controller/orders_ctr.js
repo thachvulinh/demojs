@@ -7,8 +7,9 @@ let c_func=new func();
 let c_load_html=new load_html();
 let c_cart_ctr =new cart_ctr();
 export default class  orders_ctr{
-    constructor(data){
+    constructor(data,id){
         this.data=data;
+        this.id=id;
     }
    load_table_order(){
         if(!sessionStorage.getItem('us_id')){
@@ -105,12 +106,54 @@ export default class  orders_ctr{
         $(document).on("click","#content .btn_group_orders", function () {
            var status=$(this).data('status');
            var id_table_list_orders_users=document.getElementById('table_list_orders_users');
-           id_table_list_orders_users.innerHTML='<tr><td colspan="4"><div class="loader" id="loader"></div></td></tr>';
+           id_table_list_orders_users.innerHTML='<tr><td colspan="5"><div class="loader" id="loader"></div></td></tr>';
            c_load_html.update_btn_group(this,status);
            new  orders_ctr().load_list_order(status);
         });
    }
-    
+    //details
+    load_details_orders(){
+        var order_id=  this.id;
+        c_func.get_api(constant.url_server+'/orders/info/'+order_id,'').then((response) => {
+            const info = JSON.parse(response); 
+            c_load_html.load_info_orders_details(info,"#info_orders_details","#info_ship_orders","#info_shop");
+
+        });
+    }
+    load_page_order_details(){
+        this.load_details_orders();
+    }
+
+    event_canncel_orders_users(){
+        $(document).on("click","#content #canncel_orders_users", function () {
+            $("#reason").val("");
+            $("#modal_cancel_orders").modal('show');
+         });
+    }
+    event_btn_submit_ok_canncel_orders(){
+        $(document).on("click","#content #btn_submit_ok_canncel_orders", function () {
+            Swal.fire({title: 'Thông báo', text: "Bạn có chắc chắn muốn hủy đơn hàng",icon: 'question',showCancelButton: true,cancelButtonText: 'Hủy',confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Đồng ý!'}).then((result) => {
+                if (result.isConfirmed) {
+                    var user_id=sessionStorage.getItem("us_id");
+                    var order_id=$("#order_id").val();
+                    var reason=$("#reason").val();
+                     c_func.post_api(constant.url_server+"/orders/order_cancel",{user_id:user_id,order_id:order_id,reason:reason},'').then((response) => {
+                        const result = JSON.parse(response);
+                        if(result["result"]==1){
+                            common.Sweet_Notifi("success", "Thông báo", result["message"],"OK", "#3085d6", "success");
+                            c_load_html.load_cart_menu();
+                            this.load_details_orders();
+                        }
+                        else{
+                            common.Sweet_Notifi("error", "Thông báo",result["message"] ,"OK", "#3085d6", "error");
+                        }
+                    });
+                   
+                }
+            })
+            $("#modal_cancel_orders").modal('hide');
+         });
+    }
 
 }
 //

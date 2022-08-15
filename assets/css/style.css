@@ -54,7 +54,7 @@ body {
 }
 .header .header-inner-bottom .header-inner-inner-left .logo p a {
   text-decoration: none;
-  font-size: 35px;
+  font-size: 30px;
   font-weight: bold;
 }
 .header .header-inner-bottom .header-inner-inner-right {
@@ -272,6 +272,7 @@ body {
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
+  z-index: 9999;
 }
 .sidenav_menu .closebtn {
   position: absolute;
@@ -1673,6 +1674,61 @@ body {
   font-size: 20px;
 }
 .list-item-20 .card .card-text {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-item-21 a {
+  text-decoration: none;
+  color: #000000;
+}
+.list-item-21 a:hover {
+  text-decoration: none;
+  color: #000;
+}
+.list-item-21 .card {
+  margin-bottom: 10px;
+  position: relative;
+}
+.list-item-21 .card .card-img-top {
+  -webkit-filter: grayscale(0%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(0%);
+  vertical-align: middle;
+}
+.list-item-21 .card .card-img-top:hover {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+.list-item-21 .card .card-content {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0); /* Fallback color */
+  background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+  color: #f1f1f1;
+  width: 100%;
+  padding: 5px;
+}
+.list-item-21 .card .card-content .card-title {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  font-size: 18px;
+}
+.list-item-21 .card .card-content .card-title:hover {
+  color: red;
+}
+.list-item-21 .card .card-content .card-span {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 20px;
+}
+.list-item-21 .card .card-content .card-text {
   white-space: nowrap;
   width: 100%;
   overflow: hidden;
