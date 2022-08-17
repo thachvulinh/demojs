@@ -175,6 +175,52 @@ export default class load_html{
         }
         return html;
     }
+    load_table_api_test(data){
+        var html=``;
+        if(data && JSON.stringify(data["result"])!="[]"){
+            data["result"].forEach(function(item,key){
+                html+=`
+                    <tr>
+                        <td>${item["id"]}</td>
+                        <td>${item["name"]}</td>
+                        <td>${item["code"]}</td>
+                    </tr>
+                `;
+            });
+        }
+        else{
+            html+=`
+            <tr>
+                <td colspan="3"> Không tìm thấy</td>
+            </tr>`;
+        }
+        return html;
+    }
+    load_table_api_test2(data){
+        var html=``;
+        if(data && JSON.stringify(data["result"])!="[]"){
+            data.forEach(function(item,key){
+                html+=`
+                    <tr>
+                        <td>${item.uuid}</td>
+                        <td>${item.btcPrice}</td>
+                        <td>${item.rank}</td>
+                        <td>${item.tier}</td>
+                        <td>${item.name}</td>
+                        <td>$${Math.round(item.price)} Billion</td>
+                        <td>${item.symbol}</td>
+                    </tr>
+                `;
+            });
+        }
+        else{
+            html+=`
+            <tr>
+                <td colspan="7"> Không tìm thấy</td>
+            </tr>`;
+        }
+        return html;
+    }
     load_pagination(pages,current,href){
         var html='';
         html+=` <nav aria-label="Page navigation example">
@@ -267,6 +313,7 @@ export default class load_html{
         </div>
         <div class="col-md-6 product-details-right">
             <input type="hidden" name="name" id="name" value="${data["info"]["name"]}">
+            <input type="hidden" name="product_id_check" id="product_id_check" value="${data["info"]["_id"]}">
             <input type="hidden" name="product_id" id="product_id" value="${data["info"]["_id"]}">
             <input type="hidden" name="product_price_id" id="product_price_id">
             <input type="hidden" name="user_id" id="user_id" value="${(sessionStorage.getItem('us_id')?sessionStorage.getItem('us_id'):'')}">
@@ -369,6 +416,134 @@ export default class load_html{
         `;
         return html;
     }
+    load_star_products(data){
+        var html=``;
+        //if(data["total_star"]!=0){
+            html+=`
+            
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3>Trung bình đánh giá</h3>`;
+                            html+=c_func.star_number(data["avg_star"],"font-size:42px;");
+                        html+=`
+                            <br/>
+                            <p>Tống số đánh giá: ${data["total_star"]}</p>    
+                        </div>
+                        <div class="col-md-7">
+                            <h3>Thống kê số lượng đánh giá</h3>`;
+                            html+=c_func.star_number(1,"font-size:20px;");html+=`  ${data["one_star"]} <br/>`;
+                            html+=c_func.star_number(2,"font-size:20px;");html+=`  ${data["two_star"]} <br/>`;
+                            html+=c_func.star_number(3,"font-size:20px;");html+=`  ${data["three_star"]} <br/>`;
+                            html+=c_func.star_number(4,"font-size:20px;");html+=`  ${data["four_star"]} <br/>`;
+                            html+=c_func.star_number(5,"font-size:20px;");html+=`  ${data["five_star"]} <br/>`;
+                        html+=`
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        //}
+        return html;
+    }
+    load_reviews_comment(data,product_id){
+        var html=` 
+        <div class="comment">`;
+        if(JSON.stringify(data["list_reviews_products"])!="[]"){
+            data["list_reviews_products"].forEach((item,key)=>{
+                html+=`
+                    <div class="comment_item">
+                        <div class="comment_img">
+                            <img src="${item["users"][0]["avatar"]}" >
+                        </div>
+                        <div class="comment_content">
+                            <span class="pl-1"><b>${item["users"][0]["name"]}</b> | đánh giá: ${item["review_products"]} sao
+                            ${(JSON.stringify(item["orders"][0]["product_price_id"])!="[]"?` | Màu: ${item["orders"][0]["color"]}, ${item["orders"][0]["condition1"]} : ${item["orders"][0]["value_condition1"]}, ${item["orders"][0]["condition2"]} : ${item["orders"][0]["value_condition2"]}`:``)}
+                            </span>
+                            <div class="content">
+                                ${item["content_products"]}
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                `;
+
+            });
+            html+= this.load_pagination(data["pages"],data["current"],"product_detail?id="+product_id+"&page_reviews=1");
+        }
+        else{
+            html+=`<h3 class="text-center">Không có đánh giá<h3>`;
+        }
+        html+=`
+        </div>`;
+        return html;
+    }
+    load_comments_product(data,product_id){
+        console.log(data);
+        var html=`
+            <div class="comment">`;
+            if(JSON.stringify(data["list_comment_products"])!="[]"){
+                data["list_comment_products"].forEach((item,key)=>{
+                    html+=`
+                    <div class="comment_item">
+                        <div class="comment_img">
+                            <img src="${item["users"][0]["avatar"]}">
+                        </div>
+                        <div class="comment_content">
+                            <span class="pl-1"><b>${item["users"][0]["name"]}</b></span>
+                            <div class="content">
+                               ${item["content"]}
+                            </div>`;
+                            if(sessionStorage.getItem('us_id')){
+                                html+=`
+                                <div class="control_comment">
+                                    <span style="cursor: pointer;" onclick="common.load_reply_comment('${item["_id"]}')"><i class="fa fa-reply"></i></span>
+                                </div>`
+                            }
+                        html+=`
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>`;
+                    if(JSON.stringify(item["reply_comment_products"])!="[]"){
+                        item["reply_comment_products"].forEach((item_reply,key_reply)=>{
+                            html+=`
+                            <div class="comment_item" style="padding-left:80px">
+                                <div class="comment_img">
+                                    <img src="${item_reply["users"][0]["avatar"]}">
+                                </div>
+                                <div class="comment_content">
+                                    <span class="pl-1"><b>${item_reply["users"][0]["name"]}</b></span>
+                                    <div class="content">
+                                       ${item_reply["content"]}
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>`;
+                        });
+                    }
+                    html+=`<div id="div_reply_comment_${item["_id"]}" class="div_reply_comment"></div> `;
+                });
+                html+= this.load_pagination(data["pages"],data["current"],"product_detail?id="+product_id+"&page_comment=1");
+                
+            }
+            else{
+                html+='<h3 class="text-center"> Không có bình luận</h3>';
+            }
+            html+=`
+            </div>
+        `;
+        if(sessionStorage.getItem("us_id")){
+            html+=`
+            <hr/>
+            <div class="input-group mb-3">
+                <input type="text" name="content_product" id="content_product" class="form-control" placeholder="Nhập bình luận ...">
+                <div class="input-group-append">
+                <span class="input-group-text" style="cursor: pointer;" id="btn_comment_products"><i class="fa fa-play"></i></span>
+                </div>
+            </div>
+            `;
+        }
+        return html;
+    }
     load_product_hot_column(data){
         var html=``;
         html+=`<div class="menu-lengthwise-multip mt-1">
@@ -416,9 +591,10 @@ export default class load_html{
             <li class="parent-left menu_account">
                 <a href="#">${sessionStorage.getItem("us_name")}</a>
                 <ul class="child">
+                    <li><a href="#" id="to_manage">Quản lý</a></li>
                     <li><a href="#change_users" class="link_reload">Thay đổi thông tin</a></li>
                     <li><a href="#change_password" class="link_reload" >Đổi mật khẩu</a></li>
-                    <li><a href="#list_order" class="link_reload">Đơn đặt hàng</a></li>
+                    <li><a href="#list_order?status=-3" class="link_reload">Đơn đặt hàng</a></li>
                     <li><a href="#" id="logout">Đăng xuất</a></li>
                 </ul>
             </li>`;
@@ -642,7 +818,8 @@ export default class load_html{
                     <td>${item["str_delivery_price"]}</td>
                     <td>${item["str_status"]}</td>
                     <td>
-                        <a href="#order_details?id=${item['_id']}"  class="btn-hover color-5 link_reload">chi tiết </a>
+                        <a href="#order_details?id=${item['_id']}"  class="btn btn-primary link_reload mb-2">chi tiết </a>
+                        ${(item["status"]=="3"?`<a href="#reviews?id=${item['_id']}"  class="btn btn-success link_reload" >Đánh giá</a>`:'')}
                     </td>
                 </tr>
                 `;
@@ -717,7 +894,7 @@ export default class load_html{
                     <h4>Thời gian đặt hàng: ${data["info"]["createdAt"]}</h4>
                     <h4>Trạng thái đơn hàng: ${data["info"]["str_status"]}</h4>
                     <div>
-                        ${(data["info"]["status"]!="-2" || data["info"]["status"]!="-1"  ?'<button id="canncel_orders_users" class="btn-hover color-2">Hủy đơn hàng</button>':'')}
+                        ${(data["info"]["status"]!="-2" && data["info"]["status"]!="-1" && data["info"]["status"]!="4" && data["info"]["status"]!="3"  ?'<button id="canncel_orders_users" class="btn-hover color-2">Hủy đơn hàng</button>':'')}
                         <a href="#list_order" class="btn-hover color-2 link_reload">Quay lại danh sách</a>
                     </div>
                 </div>
@@ -743,5 +920,26 @@ export default class load_html{
             </div>
         </div> 
         `);
+    }
+    load_info_orders_reviews(data){
+        $("#product_id").val(data["info"]["product_id"]);
+        $("#order_id").val(data["info"]["_id"]);
+        var html=``;
+        html+=`
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="${data["info"]["image"]}" class="w-100">
+                </div>
+                <div class="col-md-8">
+                    <a href="#product_detail?id=${data["info"]["product_id"]}" class="link_reload"><h3 class="font-weight-bold">${data["info"]["name"]}</h3></a>
+                    <h4>Mã đơn hàng: ${data["info"]["_id"]}</h4>
+                    <h4>Số lượng: ${data["info"]["str_quantity"]}</h4>
+                    <h4>Giá: ${data["info"]["str_price"]}</h4>
+                    <h4>Giá giao hàng: ${data["info"]["delivery_price"]}</h4>
+                    <h4>Hình thức thanh toán: ${data["info"]["payment"]}</h4>
+                </div>
+            </div>
+        `;
+        return html;
     }
 }

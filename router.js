@@ -49,6 +49,19 @@ export function router(href,cateid,current,page,data){
     else if(param=='product_detail'){
         var id=param_href["id"];
         let c_product_ctr=new product_ctr(id,page,cateid);
+        var page_reviews=param_href["page_reviews"];
+        var page_comment=param_href["page_comment"];
+        var check_product_id = $("#product_id_check").val();
+        if(check_product_id){
+            if(page_reviews==1){
+                c_product_ctr.load_star_product_comment(page);
+                return ;
+            }
+            if(page_comment==1){
+                c_product_ctr.load_comment_products(page);
+                return;
+            }
+        }
         c_product_ctr.clear_details_tick();
         c_func.load_html('./view/product/detail.html',document.getElementById('content'),"");
         $('.ctr_class').remove();
@@ -62,7 +75,9 @@ export function router(href,cateid,current,page,data){
         c_func.load_html('./view/example/load_api.html',document.getElementById('content'),"");
         $('.ctr_class').remove();
         c_func.dynamicallyLoadScript('./controller/example_ctr.js');
-        setTimeout(function(){c_example_ctr.load();},1000);
+        setTimeout(function(){
+            c_example_ctr.load_page();
+        },1000);
     }
     else if(param=='login'){
         c_func.load_html('./view/users/login.html',document.getElementById('content'),"");
@@ -77,18 +92,28 @@ export function router(href,cateid,current,page,data){
         setTimeout(function(){c_cart_str.load_page_list_cart();},1000)
     }
     else if(param=='create_order'){
-        let c_orders_str=new orders_ctr(data,'');
+        let c_orders_str=new orders_ctr(data,'','');
         c_func.load_html('./view/orders/create.html',document.getElementById('content'),"");
         $('.ctr_class').remove();
         c_func.dynamicallyLoadScript('./controller/orders_ctr.js');
         setTimeout(function(){c_orders_str.load_page_create();},1000)
     }
     else if(param=='list_order'){
-        let c_orders_str=new orders_ctr(data,'');
+        var status=param_href["status"];
+        let c_orders_str=new orders_ctr(data,'',status);
         c_func.load_html('./view/orders/list.html',document.getElementById('content'),"");
         $('.ctr_class').remove();
         c_func.dynamicallyLoadScript('./controller/orders_ctr.js');
         setTimeout(function(){c_orders_str.load_page_list();},1000)
+    }
+    else if(param == 'reviews'){
+        check_login();
+        var id=param_href["id"];
+        let c_orders_str=new orders_ctr(data,id);
+        c_func.load_html('./view/orders/reviews.html',document.getElementById('content'),"");
+        $('.ctr_class').remove();
+        c_func.dynamicallyLoadScript('./controller/orders_ctr.js');
+        setTimeout(()=>{c_orders_str.load_page_reviews();},1000);
     }
     else if(param == "order_details"){
         check_login();

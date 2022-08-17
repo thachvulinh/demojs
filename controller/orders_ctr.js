@@ -7,9 +7,10 @@ let c_func=new func();
 let c_load_html=new load_html();
 let c_cart_ctr =new cart_ctr();
 export default class  orders_ctr{
-    constructor(data,id){
+    constructor(data,id,status){
         this.data=data;
         this.id=id;
+        this.status=status;
     }
    load_table_order(){
         if(!sessionStorage.getItem('us_id')){
@@ -93,6 +94,7 @@ export default class  orders_ctr{
     
     if(id_table_list_orders_users){
         var users_id=  sessionStorage.getItem('us_id');
+        c_load_html.update_btn_group("#btn_list_order_"+status,status);
         c_func.get_api(constant.url_server+'/orders/list_user/'+users_id+'/'+status,'').then((response) => {
             const list = JSON.parse(response); 
             id_table_list_orders_users.innerHTML=c_load_html.load_table_list_orders_users(list);
@@ -100,7 +102,7 @@ export default class  orders_ctr{
     }
    }
    load_page_list(){
-        this.load_list_order("-3");
+        this.load_list_order(this.status);
    }
    event_load_list_order(){
         $(document).on("click","#content .btn_group_orders", function () {
@@ -109,6 +111,7 @@ export default class  orders_ctr{
            id_table_list_orders_users.innerHTML='<tr><td colspan="5"><div class="loader" id="loader"></div></td></tr>';
            c_load_html.update_btn_group(this,status);
            new  orders_ctr().load_list_order(status);
+           location.href=constant.url_default+"list_order?status="+status;
         });
    }
     //details
@@ -141,8 +144,11 @@ export default class  orders_ctr{
                         const result = JSON.parse(response);
                         if(result["result"]==1){
                             common.Sweet_Notifi("success", "Thông báo", result["message"],"OK", "#3085d6", "success");
-                            c_load_html.load_cart_menu();
-                            this.load_details_orders();
+                            setTimeout(()=>{
+                                location.reload();
+                            },2000);
+                           
+                           
                         }
                         else{
                             common.Sweet_Notifi("error", "Thông báo",result["message"] ,"OK", "#3085d6", "error");
@@ -153,6 +159,51 @@ export default class  orders_ctr{
             })
             $("#modal_cancel_orders").modal('hide');
          });
+    }
+    //reviews_orders
+    load_info_orders_reviews(){
+        var order_id= this.id;
+        var id_info_products_reviews = document.getElementById('info_products_reviews');
+        if(id_info_products_reviews){
+            c_func.get_api(constant.url_server+'/orders/info/'+order_id,'').then((response) => {
+                const info = JSON.parse(response); 
+                id_info_products_reviews.innerHTML=c_load_html.load_info_orders_reviews(info);
+    
+            });
+        }
+    }
+    load_page_reviews(){
+        this.load_info_orders_reviews();
+    }
+    create_reviews_product(data){
+        var data_form= {order_id:data["order_id"],product_id:data["product_id"],content_products:data["content_products"],review_products:data["review_products"],review_ship:"0",review_shop:"0",user_id:sessionStorage.getItem('us_id'),reply_reviews_product_id:''}; 
+        $.ajax({cache: false,url: url_server+"/reviews/insert",type: "POST",data: data_form,dataType: "json",success: function (res) {
+                if (res["result"]==1) {
+                    common.Sweet_Notifi("success", res["message"], '',"OK", "#3085d6", "success");
+                    setTimeout(function(){
+                        router('list_order?status=4')
+                        location.href=constant.url_default+"list_order?status=4";
+                    },1000)
+                }
+                else {
+                    common.Sweet_Notifi("error", res["message"], '',"OK", "#3085d6", "error");
+                }
+            },
+            error: function (error) {
+                alert("lỗi");
+            }
+        });
+    }
+    event_btn_submit_reviews_orders(){
+        $(document).on("click","#content #btn_submit_reviews_orders", function () {
+            var order_id=$("#order_id").val();
+            var product_id=$("#product_id").val();
+            var content_products=$("#content_products").val();
+            var review_products=$("input[type='radio'][name='review_products']:checked").val();
+            var form_data={order_id:order_id,product_id:product_id,content_products:content_products,review_products:review_products};
+            console.log(review_products);
+            new orders_ctr().create_reviews_product(form_data);
+        });
     }
 
 }

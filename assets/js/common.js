@@ -1,4 +1,4 @@
-var url_server =  'https://onlineshop-server.herokuapp.com'; 
+var url_server =   'https://onlineshop-server.herokuapp.com'; 
 $('.money_vi').mask("###,###,###,###", { reverse: true });
 var common = {
     init: function () { },
@@ -502,17 +502,27 @@ var common = {
             }
         })
     },
-    update_session_ship(user_id){
+    update_session_ship:function(user_id){
         $.ajax({ url: url_server+'/users/info_address_use_shipping_billing/'+user_id,dataType: 'json',type: 'GET',success: function (res) {
             if(JSON.stringify(res["data_address"])!="{}" && JSON.stringify(res["data_address"])!="[]" ){
                 sessionStorage.setItem("us_address_ship",res["use_shipping"]["address"]);
                 sessionStorage.setItem("us_postcode",res["use_shipping"]["value_province_city"]+" - "+ res["use_shipping"]["value_district"]+" - "+ res["use_shipping"]["value_wards"]);
-                console.log(sessionStorage.getItem('us_address_ship'));
-                console.log(sessionStorage.getItem('us_postcode'));
                 }
                 
             }
         })
+    },
+    load_reply_comment:function(id_comment){
+        $(".div_reply_comment").empty();
+        var html=`
+        <input type="hidden" name="id_reply_comment_product" id="id_reply_comment_product" value="${id_comment}" />
+         <div class="input-group mb-3" style="padding-left:80px">
+            <input type="text" name="content_reply_product" id="content_reply_product" class="form-control" placeholder="Nhập câu trả lời ...">
+            <div class="input-group-append">
+            <span class="input-group-text" style="cursor: pointer;" id="btn_reply_comment_products"><i class="fa fa-play"></i></span>
+            </div>
+        </div>`
+        $("#div_reply_comment_"+id_comment).html(html);
     }
     
 

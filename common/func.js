@@ -63,22 +63,24 @@ export default  class func{
     // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     // res.setHeader('Access-Control-Allow-Credentials', true);
     get_api_example(url,token){
-      let h=new Headers();
-      h.append('Authentication',`Bearer ${token}`);
-      h.append('Access-Control-Allow-Origin',`*`);
-      h.append('Access-Control-Allow-Methods',`GET, POST, OPTIONS, PUT, PATCH, DELETE`);
-      h.append('Access-Control-Allow-Headers',`X-Requested-With,content-type`);
-      h.append('Access-Control-Allow-Credentials',`true`);
-      let req =new Request(url,{
-        method:'GET',
-        mode :'no-cors',
-        headers:h
-      })
-      fetch(req)
-      .then(resp =>resp.json())
-      .catch(err=>{
-        console.error(err.message);
-      })
+        var proxyUrl="https//cors-anywhere.herokuapp.com/"
+        return new Promise(function (resolve, reject) {
+            const xmlhttp=new XMLHttpRequest();
+             xmlhttp.withCredentials = true;
+             xmlhttp.open('GET', `${url}`,true);
+             xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                  resolve(this.response);
+                } 
+              };
+             xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "http://demojs.local");
+             xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencode");
+             xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');  
+             xmlhttp.setRequestHeader("Authorization", "Bearer " + token);
+             xmlhttp.setRequestHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT");
+             xmlhttp.setRequestHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,Authorization,Methods");
+             xmlhttp.send();
+           });
     }
     async get_api2(url,token){
         try{
@@ -272,5 +274,65 @@ export default  class func{
             arr.push({id:field,value:message});
         }
     }
+    star_number(number,font_size){
+        var html ='';
+        var color='#f5dd42';
+        if(number == 0){
+            html+=`
+                <i class="fa fa-star-0" style="${font_size};color:${color};"></i>
+                <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+                <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+                <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+                <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+            `;
+        }
+        else if(number > 0 && number <= 1){
+            html+=`
+                <i class="fa fa-star" style="${font_size};color:${color};"></i>
+                <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+                <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+                <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+                <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+            `;
+        }
+        else if(number > 1 && number <= 2){
+            html+=`
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+        `;
+        }
+        else if(number > 2 && number <= 3){
+            html+=`
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+        `;
+        }
+        else if(number > 3 && number <= 4){
+            html+=`
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star-o" style="${font_size};color:${color};"></i>
+        `;
+        }
+        else if(number > 4 && number <= 5){
+            html+=`
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+            <i class="fa fa-star" style="${font_size};color:${color};"></i>
+        `;
+        }
+        return html;
+    }
+    
 }
  

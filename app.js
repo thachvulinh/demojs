@@ -32,8 +32,11 @@ setTimeout(function(){
     c_users_ctr.event_submit_btn_address_users();
     c_orders_ctr.event_canncel_orders_users();
     c_orders_ctr.event_btn_submit_ok_canncel_orders();
+    c_orders_ctr.event_btn_submit_reviews_orders();
 
     c_product_ctr.event_create_orders();
+    c_product_ctr.event_create_comment_product();
+    c_product_ctr.event_create_reply_comment_product();
     var page_search=1;
     var timeout = null;
     $(document).on("click keyup",".header #input-search-page", function () {

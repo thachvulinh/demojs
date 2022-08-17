@@ -164,11 +164,13 @@ export default class  product_ctr{
             c_func.get_api(constant.url_server+'/products/info/'+this.id,'').then((response) => {
                 const info = JSON.parse(response);
                 id_product_detail.innerHTML =c_load_html.load_product_detail(info);
-                
                 complete_details_info=1;
                 this.hide_loading_details();
-                setTimeout(function(){common.imageZoom("myimage", "myresult");c_func.refresh_carousel_multip_products();},1000);
-                
+                setTimeout(function(){
+                    common.imageZoom("myimage", "myresult");c_func.refresh_carousel_multip_products();
+                    new product_ctr().load_star_product_comment("1");
+                    new product_ctr().load_comment_products("1");
+                },1000);
               });
              
         }
@@ -200,8 +202,81 @@ export default class  product_ctr{
            
         }
     }
+    load_star_product(){
+        var id_star_products=document.getElementById('star_products');
+        if(id_star_products){
+            c_func.get_api(constant.url_server+'/reviews/star_products/'+this.id,'').then((response) => {
+                const list = JSON.parse(response);
+                id_star_products.innerHTML=c_load_html.load_star_products(list);
+               
+            });
+        }
+    }
+    load_star_product_comment(page){
+        var id_reviews_comment=document.getElementById('reviews_comment');
+        var perPage=5;
+        var product_id=$("#product_id").val();
+        $("#page_review").val(page);
+        if(id_reviews_comment){
+            $.ajax({cache: false,url: constant.url_server+"/reviews/list_product_id",type: "POST",data: {product_id:product_id,page:page,perPage:perPage},dataType: "json",success: function (res) {
+                id_reviews_comment.innerHTML=c_load_html.load_reviews_comment(res,product_id);
+            }});
+        }
+    }
+    load_comment_products(page){
+        var id_comments=document.getElementById('comments');
+        var perPage=5;
+        var product_id=$("#product_id").val();
+        var data={product_id:product_id,page:page,perPage:perPage};
+       
+        if(id_comments){
+            $.ajax({cache: false,url: constant.url_server+"/comment_products/list_comment_product_id",type: "POST",data:data ,dataType: "json",success: function (res) {
+                id_comments.innerHTML=c_load_html.load_comments_product(res,product_id);
+            },
+            error: function (error) {
+                alert("lỗi");
+            }
+        });
+        }
+    }
+    create_comment_product(data){
+        var content=data["content"];
+        var product_id=data["product_id"];
+        var user_id=data["user_id"];
+        var reply_comment_product_id=data["reply_comment_product_id"]
+        var data_form={content:content,product_id:product_id,user_id:user_id,reply_comment_product_id:reply_comment_product_id};
+        $.ajax({cache: false,url: constant.url_server+"/comment_products/insert",type: "POST",data: data_form,dataType: "json",success: function (res) {
+            if (res["result"]==1) {
+                new product_ctr().load_comment_products("1");
+            }
+            else {
+                common.Sweet_Notifi("error", res["message"], '',"OK", "#3085d6", "error");
+            }
+        }});
+    }
+    event_create_comment_product(){
+        $(document).on("click","#content #btn_comment_products", function () {
+            var content=$("#content_product").val();
+            var product_id=$("#product_id").val();
+            var user_id=sessionStorage.getItem('us_id');
+            var reply_comment_product_id="";
+            var data={content:content,product_id:product_id,user_id:user_id,reply_comment_product_id:reply_comment_product_id};
+            new product_ctr().create_comment_product(data);
+        });
+    }
+    event_create_reply_comment_product(){
+        $(document).on("click","#content #btn_reply_comment_products", function () {
+            var content=$("#content_reply_product").val();
+            var product_id=$("#product_id").val();
+            var user_id=sessionStorage.getItem('us_id');
+            var reply_comment_product_id=$("#id_reply_comment_product").val();
+            var data={content:content,product_id:product_id,user_id:user_id,reply_comment_product_id:reply_comment_product_id};
+            new product_ctr().create_comment_product(data);
+        });
+    }
     load_detail(){
         this.load_product_detail();
+        this.load_star_product();
         this.load_product_details_hot();
         this.list_products_detail_similar_caro();
     }

@@ -1,0 +1,45 @@
+<div class="content">
+    <div class="container-fluid  pt-4 pb-4">
+        <div class="row ">
+            <div class="col-md-8">
+                <div class="card mt-3" style="min-height:300px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Thông tin sản phẩm</h3>
+                    </div>
+                    <div class="card-body">
+                       <div id="info_products_reviews"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mt-3" style="min-height:300px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Đánh giá của bạn về sản phẩm</h3>
+                    </div>
+                    <div class="card-body">
+                       <div class="form-group">
+                            <input type="hidden" name="product_id" id="product_id">
+                            <input type="hidden" name="order_id" id="order_id">
+                            <h3 >Đánh giá sản phẩm </label><br/>
+                            <div class="rating"> 
+                                                               <input type="radio" name="review_products" value="5" id="star_5" checked>
+                                <label for="star_5">☆</label> <input type="radio" name="review_products" value="4" id="star_4" >
+                                <label for="star_4">☆</label> <input type="radio" name="review_products" value="3" id="star_3">
+                                <label for="star_3">☆</label> <input type="radio" name="review_products" value="2" id="star_2">
+                                <label for="star_2">☆</label> <input type="radio" name="review_products" value="1" id="star_1" >
+                                <label for="star_1">☆</label> 
+                            </div>
+                       </div>
+                       <div class="form-group">
+                        <h3 >Nội dung đánh giá </label><br/>
+                        <textarea id="content_products" name="content_products" class="form-control"> Sản phẩm tốt lắm</textarea>
+                       </div>
+                       <button class="btn btn-primary"  id="btn_submit_reviews_orders">Xác nhận</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+<!-- <div class="loading_fullpage" id="loading_fullpage">Loading&#8230;</div> -->
