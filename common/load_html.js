@@ -221,6 +221,32 @@ export default class load_html{
         }
         return html;
     }
+    load_table_api_test6(data){
+        var html=``;
+        if(JSON.stringify(data)!="[]"){
+            data.forEach(function(item,key){
+                html+=`
+                    <tr>
+                        <td>${item["id"]}</td>
+                        <td>${item["name"]}</td>
+                        <td>${item["username"]}</td>
+                        <td>${item["email"]}</td>
+                        <td>${item["username"]}</td>
+                        <td>$${item["website"]} Billion</td>
+                        <td>${item["company"]["name"]}</td>
+                        <td>${item["address"]["city"]}, ${item["address"]["street"]}</td>
+                    </tr>
+                `;
+            });
+        }
+        else{
+            html+=`
+            <tr>
+                <td colspan="7"> Không tìm thấy</td>
+            </tr>`;
+        }
+        return html;
+    }
     load_pagination(pages,current,href){
         var html='';
         html+=` <nav aria-label="Page navigation example">
@@ -537,7 +563,7 @@ export default class load_html{
             <div class="input-group mb-3">
                 <input type="text" name="content_product" id="content_product" class="form-control" placeholder="Nhập bình luận ...">
                 <div class="input-group-append">
-                <span class="input-group-text" style="cursor: pointer;" id="btn_comment_products"><i class="fa fa-play"></i></span>
+                <span class="input-group-text " style="cursor: pointer;" id="btn_comment_products"><i class="fa fa-play"></i></span>
                 </div>
             </div>
             `;
@@ -591,7 +617,7 @@ export default class load_html{
             <li class="parent-left menu_account">
                 <a href="#">${sessionStorage.getItem("us_name")}</a>
                 <ul class="child">
-                    <li><a href="#" id="to_manage">Quản lý</a></li>
+                   
                     <li><a href="#change_users" class="link_reload">Thay đổi thông tin</a></li>
                     <li><a href="#change_password" class="link_reload" >Đổi mật khẩu</a></li>
                     <li><a href="#list_order?status=-3" class="link_reload">Đơn đặt hàng</a></li>
@@ -626,6 +652,7 @@ export default class load_html{
                             error+=item["value"]+'<br/>';
                         }
                     });
+                    $("#"+item_arr).addClass("is-invalid");
                     $("#"+item_arr+"_error").html(error);
                 });
             }

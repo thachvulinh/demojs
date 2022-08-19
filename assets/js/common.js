@@ -1,4 +1,4 @@
-var url_server =   'https://onlineshop-server.herokuapp.com'; 
+var url_server =  'https://onlineshop-server.herokuapp.com'; 
 $('.money_vi').mask("###,###,###,###", { reverse: true });
 var common = {
     init: function () { },
@@ -100,23 +100,55 @@ var common = {
         }
     },
     Format_DateTime:function(date,type){
-        if(type=="ddmmyyyyhhiiss"){
-            const d = new Date(date);
-            const yyyy = d.getFullYear();
-            let mm = d.getMonth() + 1; // Months start at 0!
-            let dd = d.getDate();
-            let hh = d.getHours();
-            let ii = d.getMinutes();
-            let ss = d.getSeconds();
-            if (dd < 10) dd = '0' + dd;
-            if (mm < 10) mm = '0' + mm;
-            
-            if (hh < 10) hh = '0' + hh;
-            if (ii < 10) ii = '0' + ii;
-            if (ss < 10) ss = '0' + ss;
-            const today = dd + '/' + mm + '/' + yyyy +' '+hh+':'+ii+':'+ss ;
-            return today;
+        const d = new Date(date);
+        var str_date='';
+        const yyyy = d.getFullYear();
+        let mm = d.getMonth() + 1; // Months start at 0!
+        let dd = d.getDate();
+        let hh = d.getHours();
+        let ii = d.getMinutes();
+        let ss = d.getSeconds();
+        if (dd < 10) dd = '0' + dd;
+        if (mm < 10) mm = '0' + mm;
+        
+        if (hh < 10) hh = '0' + hh;
+        if (ii < 10) ii = '0' + ii;
+        if (ss < 10) ss = '0' + ss;
+        switch(type){
+            case "ddmmyyyyhhiiss":
+                str_date=  dd + '/' + mm + '/' + yyyy +' '+hh+':'+ii+':'+ss ;
+                break;
+            case "mmddyyyyhhiiss":
+                str_date=  mm + '/' + dd + '/' +  yyyy +' '+hh+':'+ii+':'+ss ;
+                break;
+            case "yyyymmddhhiiss":
+                str_date=  yyyy + '/' + mm + '/' +  dd +' '+hh+':'+ii+':'+ss ;
+                break;
+            case "ddmmyyyyhhii":
+                str_date=  dd + '/' + mm + '/' + yyyy +' '+hh+':'+ii ;
+                break;
+            case "mmddyyyyhhii":
+                str_date=  mm + '/' + dd + '/' + yyyy +' '+hh+':'+ii;
+                break;
+            case "ddmmyyyy":
+                str_date=  dd + '/' + mm + '/' + yyyy;
+                break;
+            case "mmddyyyy":
+                str_date=  mm + '/' + dd + '/' + yyyy;
+                break;
+            case "day":
+                str_date=  dd ;
+                break;
+            case "month":
+                str_date=   mm;
+                break;
+            case "year":
+                str_date= yyyy;
+                break;
+            default:
+                str_date=  dd + '/' + mm + '/' + yyyy +' '+hh+':'+ii+':'+ss ;
         }
+        return str_date;
     },
     item_pagination:function(pages,current,fuc){
         var html='';
@@ -523,7 +555,16 @@ var common = {
             </div>
         </div>`
         $("#div_reply_comment_"+id_comment).html(html);
+    },
+    keyup_comment:function(id_text,id_button){
+        if($(id_text).val()==""){
+            $(id_button).attr("disabled",true);
+        }
+        else{
+            $(id_button).attr("disabled",false);
+        }
     }
+       
     
 
 }

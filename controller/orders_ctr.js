@@ -201,7 +201,6 @@ export default class  orders_ctr{
             var content_products=$("#content_products").val();
             var review_products=$("input[type='radio'][name='review_products']:checked").val();
             var form_data={order_id:order_id,product_id:product_id,content_products:content_products,review_products:review_products};
-            console.log(review_products);
             new orders_ctr().create_reviews_product(form_data);
         });
     }

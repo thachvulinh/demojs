@@ -100,6 +100,7 @@ export default class  users_ctr{
     async changepassword(data){
         $("#alert_error_total").empty();
         $(".error_item").empty();
+        $(".form-control").removeClass('is-invalid');
         var arr_error=new Array();
 
         var id=sessionStorage.getItem("us_id");
@@ -142,6 +143,7 @@ export default class  users_ctr{
     async resgister(data){
         $("#alert_error_total").empty();
         $(".error_item").empty();
+        $(".form-control").removeClass('is-invalid');
         var arr_error=new Array();
         var name = data["name"];
         // var email = data["email"];
@@ -224,6 +226,7 @@ export default class  users_ctr{
    async update_info_users(data){
         $("#alert_error_total").empty();
         $(".error_item").empty();
+        $(".form-control").removeClass('is-invalid');
         var arr_error=new Array();
 
         var name = data["name"];
@@ -283,6 +286,7 @@ export default class  users_ctr{
     save_address_users(data){
         $("#alert_error_total_address").empty();
         $(".error_item").empty();
+        $(".form-control").removeClass('is-invalid');
         var arr_error=new Array();
         var name_address = data["name_address"];
         var address = data["address"];

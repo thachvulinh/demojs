@@ -72,6 +72,9 @@ export default  class func{
                 if (this.readyState == 4 && this.status == 200) {
                   resolve(this.response);
                 } 
+                else if (this.status != 200){
+                    reject(this.status);
+                }
               };
              xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "http://demojs.local");
              xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencode");
@@ -81,6 +84,20 @@ export default  class func{
              xmlhttp.setRequestHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,Authorization,Methods");
              xmlhttp.send();
            });
+    }
+   async get_api_example2(url,token){
+        const response = await fetch(url, { 
+            //mode: 'no-cors',
+            method: 'GET', 
+            headers: new Headers({
+                'Content-Type':'application/x-www-form-urlencode',
+                //'accept':'text/json',
+                //'Access-Control-Allow-Origin':'*',
+                //"Access-Control-Allow-Origin": window.location.origin,
+                'Authorization':(token!=""?'Bearer '+ token:''), 
+            }) 
+        }); 
+        return await response.json();
     }
     async get_api2(url,token){
         try{
@@ -94,7 +111,7 @@ export default  class func{
                     //"Access-Control-Allow-Origin": window.location.origin,
                     'Authorization':'Bearer '+ token, 
                 }) 
-            }); ;
+            }); 
             return await response.json();
         }
         catch(error){
@@ -274,6 +291,75 @@ export default  class func{
             arr.push({id:field,value:message});
         }
     }
+    check_number(arr,field,text,message){
+        if(text && isNaN(text)){
+            arr.push({id:field,value:message});
+        }
+    }
+    check_date(arr,field,text,message,type){
+        if(type == "ddmmyyyy"){
+            var re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+            if(text != '') {
+                var regs = text.match(re);
+                if(text.match(re)) {
+                    if(regs[1] < 1 || regs[1] > 31) {
+                        arr.push({id:field,value:"Ngày không hợp lệ :"+regs[1]});
+                    }
+                    if(regs[2] < 1 || regs[2] > 12) {
+                        arr.push({id:field,value:"Tháng không hợp lệ :"+regs[2]});
+                    }
+                    if(regs[3] < 1902 || regs[3] > (new Date()).getFullYear()) {
+                        arr.push({id:field,value:"Năm không hợp lệ :"+regs[3]+". Năm trong khoảng 1902 đến "+ (new Date()).getFullYear()});
+                    }
+                } else {
+                    arr.push({id:field,value:message});
+                }
+            }
+        }
+        else if(type == "mmddyyyy"){
+            var re = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+            if(text != '') {
+                var regs = text.match(re);
+                if(text.match(re)) {
+                    if(regs[1] < 1 || regs[1] > 12) {
+                        arr.push({id:field,value:"Tháng không hợp lệ :"+regs[1]});
+                    }
+                    if(regs[2] < 1 || regs[2] > 31) {
+                        arr.push({id:field,value:"Ngày không hợp lệ :"+regs[2]});
+                    }
+                    if(regs[3] < 1902 || regs[3] > (new Date()).getFullYear()) {
+                        arr.push({id:field,value:"Năm không hợp lệ :"+regs[3]+". Năm trong khoảng 1902 đến "+ (new Date()).getFullYear()});
+                    }
+                } else {
+                    arr.push({id:field,value:message});
+                }
+            }
+        }
+        else if(type =="hhii"){
+            var re = /^(\d{1,2}):(\d{2})([ap]m)?$/;
+            if(text != '') {
+                var regs =text.match(re);
+                if(text.match(re)) {
+                  if(regs[3]) {
+                    if(regs[1] < 1 || regs[1] > 12) {
+                        arr.push({id:field,value:"Giờ không hợp lệ :"+regs[1]});
+                    }
+                  } else {
+                    if(regs[1] > 23) {
+                        arr.push({id:field,value:"Giờ không hợp lệ :"+regs[1]});      
+                    }
+                  }
+                  if(regs[2] > 59) {
+                    arr.push({id:field,value:"Phút không hợp lệ :"+regs[2]});      
+                  }
+                } else {
+                    arr.push({id:field,value:message});
+                }
+              }
+        }
+       
+
+    }
     star_number(number,font_size){
         var html ='';
         var color='#f5dd42';
@@ -332,6 +418,63 @@ export default  class func{
         `;
         }
         return html;
+    }
+    check_prime(arr_prime,arr_not_prime,arr_str,n){
+        if(isNaN(n)){
+            arr_str.push(n);
+            return;
+        }
+        var flag = true;
+        if (n < 2){flag = false;}
+        else if (n == 2){flag = true;}
+        else if (n % 2 == 0){ flag = false;}
+        else{
+            // lặp từ 3 tới n-1 với bước nhảy là 2 (i+=2)
+            for (var i = 3; i < Math.sqrt(n); i+=2){
+                if (n % i == 0){
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        // Kiểm tra biến flag
+        if (flag == true){
+            arr_prime.push(n);
+        }
+        else{
+            arr_not_prime.push(n);
+        }
+    }
+    
+    check_perfect(arr_perfect,arr_not_perfect,arr_str,n){
+        if(isNaN(n)){
+            arr_str.push(n);
+            return;
+        }
+        var total=0;
+        //Tìm tổng ước số   
+        for (var i=1;i<n; i++){
+            if (n % i == 0) total+=i;//Nếu là ước số thì cộng vào tổng
+        }
+        //So sánh tổng ước số với số đã cho để tìm ra số hoàn hảo
+        if (total == n & n!=0){
+            arr_perfect.push(n);
+        }
+        else{
+            arr_not_perfect.push(n);
+        }
+    }
+    check_odd_even(arr_even,arr_odd,arr_str,n){
+        if(isNaN(n)){
+            arr_str.push(n);
+            return;
+        }
+        if(n%2==0){
+            arr_even.push(n);
+        }
+        else{
+            arr_odd.push(n);
+        }
     }
     
 }
