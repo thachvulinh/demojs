@@ -8,6 +8,10 @@
   font-family: "Times New Roman", Times, serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0px;
   width: 100%;
@@ -3755,6 +3759,117 @@ body {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+.compare-two-image .img-comp-container {
+  position: relative;
+  height: 200px; /*should be the same height as the images*/
+}
+.compare-two-image .img-comp-img {
+  position: absolute;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+}
+.compare-two-image .img-comp-img img {
+  display: block;
+  vertical-align: middle;
+}
+.compare-two-image .img-comp-slider {
+  position: absolute;
+  z-index: 9;
+  cursor: ew-resize;
+  /*set the appearance of the slider:*/
+  width: 40px;
+  height: 40px;
+  background-color: #2196F3;
+  opacity: 0.7;
+  border-radius: 50%;
+}
+
+.magnifier-container {
+  box-sizing: border-box;
+}
+.magnifier-container .img-magnifier-container {
+  position: relative;
+}
+.magnifier-container .img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 100px;
+  height: 100px;
+}
+
+.menu_example {
+  position: relative;
+}
+.menu_example:hover .menu_example_fixed {
+  display: block;
+}
+.menu_example .btn_menu_example_fixed {
+  position: fixed;
+  right: 25px;
+  top: 189px;
+}
+.menu_example .menu_example_fixed {
+  overflow: auto;
+  height: 300px;
+  position: fixed;
+  right: 56px;
+  top: 189px;
+  background-color: white;
+  border: thin solid #00c0ff;
+  border-radius: 5px;
+  display: none;
+  z-index: 99999;
+}
+.menu_example .menu_example_fixed ul {
+  list-style: none;
+  margin: 0;
+  padding: 0px;
+}
+.menu_example .menu_example_fixed ul li {
+  padding: 7px;
+}
+.menu_example .menu_example_fixed ul li a {
+  font-size: 12px;
+  color: black;
+  text-decoration: none;
+}
+
+.tree-view ul, .tree-view .myUL {
+  list-style-type: none;
+}
+.tree-view .myUL {
+  margin: 0;
+  padding: 0;
+}
+.tree-view .caret {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+.tree-view .caret::before {
+  content: "▶";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+.tree-view .caret-down::before {
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.tree-view .nested {
+  display: none;
+}
+.tree-view .active {
+  display: block;
 }
 
 /*# sourceMappingURL=style.css.map */

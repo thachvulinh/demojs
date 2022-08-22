@@ -1,0 +1,52 @@
+
+<div class="container-fluid">
+    <form action="https://onlineshop-client.herokuapp.com/orders/create_payment_url" method="POST" >
+        <input type="hidden" name="type_template" value="template_2" >
+        <input type="hidden" name="product_id" id="product_id" value="">
+        <input type="hidden" name="product_price_id" id="product_price_id" value="">
+        <input type="hidden" name="user_id" id="user_id" value="">
+        <input type="hidden" name="receiver" id="receiver" value="">
+        <input type="hidden" name="receiver_phone" id="receiver_phone" value="">
+        <input type="hidden" name="receiver_address" id="receiver_address" value="">
+        <input type="hidden" name="receiver_postcode" id="receiver_postcode" value="">
+        <input type="hidden" name="quantity" id="quantity" value="">
+        <input type="hidden" name="payment" id="payment" value="">
+        <input type="hidden" name="delivery_price" id="delivery_price" value="">
+        <input type="hidden" name="amount" id="amount" value="">
+        <input type="hidden" name="orderType" id="orderType" value="billpayment">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center">Thanh toán VNPAY</h3>
+                        <h4 class="text-center"><span id="payment_total_price"></span> VND</h4>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> Ngân hàng</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="bankCode" name="bankCode"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> Ngôn ngữ</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="language" name="language">
+                                    <option value="vn">Tiếng Việt</option>
+                                    <option value="en"> English</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"> Nội dung thanh toán</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="orderDescription" name="orderDescription" rows="4"  ></textarea>
+                            </div>
+                        </div>
+                        <button class="btn btn-default float-right" type="submit">Thanh toán</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </form>
+</div>

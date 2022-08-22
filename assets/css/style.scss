@@ -13,6 +13,9 @@ $color-header-inner-bottom:#ff80ff;
 	font-size: 12px;
 	font-family: 'Times New Roman', Times, serif;
 }
+html {
+	scroll-behavior: smooth;
+}
 body{
 	margin:0px;
 	width: 100%;
@@ -3155,3 +3158,129 @@ margin: 10px;
 	-webkit-user-select: none;
 	-ms-user-select: none;
 }
+//compare-two-image
+.compare-two-image{
+	.img-comp-container {
+		position: relative;
+		height: 200px; /*should be the same height as the images*/
+	  }
+	  
+	  .img-comp-img {
+		position: absolute;
+		width: auto;
+		height: auto;
+		overflow:hidden;
+	  }
+	  
+	  .img-comp-img img {
+		display:block;
+		vertical-align:middle;
+	  }
+	  
+	  .img-comp-slider {
+		position: absolute;
+		z-index:9;
+		cursor: ew-resize;
+		/*set the appearance of the slider:*/
+		width: 40px;
+		height: 40px;
+		background-color: #2196F3;
+		opacity: 0.7;
+		border-radius: 50%;
+	  }
+}
+//magnifier-container
+.magnifier-container{
+	box-sizing: border-box;
+	.img-magnifier-container {
+		position:relative;
+	  }
+	  
+	  .img-magnifier-glass {
+		position: absolute;
+		border: 3px solid #000;
+		border-radius: 50%;
+		cursor: none;
+		/*Set the size of the magnifier glass:*/
+		width: 100px;
+		height: 100px;
+	  }
+}
+//menu example
+.menu_example{
+	position: relative;
+	&:hover .menu_example_fixed{
+		display:block;
+	}
+	.btn_menu_example_fixed{
+		position:fixed;
+		right: 25px;
+		top: 189px;
+
+	}
+	.menu_example_fixed{
+		overflow:auto;
+		height: 300px;
+		position:fixed;
+		right: 56px;
+		top: 189px;
+		background-color:white;
+		border: thin solid #00c0ff;
+		border-radius: 5px;
+		display: none;
+		z-index: 99999;
+		ul{
+			list-style: none;
+			margin: 0;
+			padding: 0px;
+			li{
+				padding: 7px;
+				a{
+					font-size: 12px;
+					color:black;
+					text-decoration: none;
+				}
+			}
+		}
+
+	}
+}
+//tree view
+.tree-view {
+	ul, .myUL {
+		list-style-type: none;
+	  }
+	  
+	  .myUL {
+		margin: 0;
+		padding: 0;
+	  }
+	  .caret {
+		cursor: pointer;
+		-webkit-user-select: none; /* Safari 3.1+ */
+		-moz-user-select: none; /* Firefox 2+ */
+		-ms-user-select: none; /* IE 10+ */
+		user-select: none;
+	  }
+	  .caret::before {
+		content: "\25B6";
+		color: black;
+		display: inline-block;
+		margin-right: 6px;
+	  }
+	  
+	  .caret-down::before {
+		-ms-transform: rotate(90deg); 
+		-webkit-transform: rotate(90deg); 
+		transform: rotate(90deg);  
+	  }
+	  
+	  .nested {
+		display: none;
+	  }
+	  
+	  .active {
+		display: block;
+	  }
+	
+  }

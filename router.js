@@ -106,6 +106,12 @@ export function router(href,cateid,current,page,data){
         c_func.dynamicallyLoadScript('./controller/orders_ctr.js');
         setTimeout(function(){c_orders_str.load_page_list();},1000)
     }
+    else if(param=='payment_order_atm'){
+        check_login();
+        c_func.load_html('./view/orders/order_vnpay.html',document.getElementById('content'),"");
+        $('.ctr_class').remove();
+        c_func.dynamicallyLoadScript('./controller/orders_ctr.js');
+    }
     else if(param == 'reviews'){
         check_login();
         var id=param_href["id"];

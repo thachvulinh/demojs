@@ -3,12 +3,13 @@ import load_html from '../common/load_html.js';
 import asyncSequence from '../common/asyncSequence.js';
 import sequence from '../common/sequence.js';
 let c_func=new func();
-let c_load_html=new load_html();
-import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.esm.browser.min.js'
-var token_api_example='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwYXRyaWNrLnBoYW1AcGFwLXRlY2guY29tIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJZWkFLWVhVRkJUTlA1VjdFTUQ3RTVGVklON0s2QVVKTyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiaHR0cDovL3d3dy5hc3BuZXRib2lsZXJwbGF0ZS5jb20vaWRlbnRpdHkvY2xhaW1zL3RlbmFudElkIjoiMiIsInN1YiI6IjMiLCJqdGkiOiIwMzQwMjIyNS1kNjRjLTRlNmYtOTZjZS1jYzg1ZjA5NDhiMzMiLCJpYXQiOjE2NjA4Nzg4MjEsIm5iZiI6MTY2MDg3ODgyMSwiZXhwIjoxNjYwOTY1MjIxLCJpc3MiOiJTMlJldGFpbCIsImF1ZCI6IlMyUmV0YWlsIn0.NMPdLIDxQ5LgndxiQxi21ojGCnlE_7uVzxTRGUwwAwk';
+let c_load_html=new load_html(); 
+// import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.esm.browser.min.js'
+var token_api_example='';
+async function get_token_api_s2retail(){token_api_example = await c_func.post_token_api_s2retail();}
+get_token_api_s2retail();
 export default class  example_ctr{
     //constructor(){}
-    
     async loadapi_example(){
         var url_example='https://api.s2retail.xyz/api/services/app/UnitOfMeasure/GetUOMListForComboBox';
         var id_table_api_test = document.getElementById("table_api_test");
@@ -610,8 +611,116 @@ export default class  example_ctr{
          //End bar-chart-grouped-chart
     }
     load_example_20(){
+      function initComparisons() {
+        var x, i;
+        x = document.getElementsByClassName("img-comp-overlay");
+        for (i = 0; i < x.length; i++) {
+          compareImages(x[i]);
+        }
+        function compareImages(img) {
+          var slider, img, clicked = 0, w, h;
+          w = img.offsetWidth;
+          h = img.offsetHeight;
+          img.style.width = (w / 2) + "px";
+          slider = document.createElement("DIV");
+          slider.setAttribute("class", "img-comp-slider");
+          img.parentElement.insertBefore(slider, img);
+          slider.style.top = (h / 2) - (slider.offsetHeight / 2) + "px";
+          slider.style.left = (w / 2) - (slider.offsetWidth / 2) + "px";
+          slider.addEventListener("mousedown", slideReady);
+          window.addEventListener("mouseup", slideFinish);
+          slider.addEventListener("touchstart", slideReady);
+          window.addEventListener("touchend", slideFinish);
+          function slideReady(e) {
+            e.preventDefault();
+            clicked = 1;
+            window.addEventListener("mousemove", slideMove);
+            window.addEventListener("touchmove", slideMove);
+          }
+          function slideFinish() {
+            clicked = 0;
+          }
+          function slideMove(e) {
+            var pos;
+            if (clicked == 0) return false;
+            pos = getCursorPos(e)
+            if (pos < 0) pos = 0;
+            if (pos > w) pos = w;
+            slide(pos);
+          }
+          function getCursorPos(e) {
+            var a, x = 0;
+            e = (e.changedTouches) ? e.changedTouches[0] : e;
+            a = img.getBoundingClientRect();
+            x = e.pageX - a.left;
+            x = x - window.pageXOffset;
+            return x;
+          }
+          function slide(x) {
+            img.style.width = x + "px";
+            slider.style.left = img.offsetWidth - (slider.offsetWidth / 2) + "px";
+          }
+        }
+      }
+      initComparisons();
     }
-    load_page(){
+    load_example_21(){
+      function magnify(imgID, zoom) {
+        var img, glass, w, h, bw;
+        img = document.getElementById(imgID);
+        glass = document.createElement("DIV");
+        glass.setAttribute("class", "img-magnifier-glass");
+        img.parentElement.insertBefore(glass, img);
+        glass.style.backgroundImage = "url('" + img.src + "')";
+        glass.style.backgroundRepeat = "no-repeat";
+        glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+        bw = 3;
+        w = glass.offsetWidth / 2;
+        h = glass.offsetHeight / 2;
+        glass.addEventListener("mousemove", moveMagnifier);
+        img.addEventListener("mousemove", moveMagnifier);
+        glass.addEventListener("touchmove", moveMagnifier);
+        img.addEventListener("touchmove", moveMagnifier);
+        function moveMagnifier(e) {
+          var pos, x, y;
+          e.preventDefault();
+          pos = getCursorPos(e);
+          x = pos.x;
+          y = pos.y;
+          if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+          if (x < w / zoom) {x = w / zoom;}
+          if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+          if (y < h / zoom) {y = h / zoom;}
+          glass.style.left = (x - w) + "px";
+          glass.style.top = (y - h) + "px";
+          glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+        }
+        function getCursorPos(e) {
+          var a, x = 0, y = 0;
+          e = e || window.event;
+          a = img.getBoundingClientRect();
+          x = e.pageX - a.left;
+          y = e.pageY - a.top;
+          x = x - window.pageXOffset;
+          y = y - window.pageYOffset;
+          return {x : x, y : y};
+        }
+      }
+      magnify("image-zoom-magnifier", 3);
+    }
+    load_example_23(){
+      var toggler = document.getElementsByClassName("caret");
+      var i;
+      if(toggler.length >0){
+        for (i = 0; i < toggler.length; i++) {
+          toggler[i].addEventListener("click", function() {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+          });
+        }
+      }
+    }
+   load_page(){
         this.loadapi_example();
         this.loadapi_example3();
         this.loadapi_example4();
@@ -634,5 +743,8 @@ export default class  example_ctr{
         this.load_example_15();
         this.load_example_17();
         this.load_example_19();
+        this.load_example_20();
+        this.load_example_21();
+        this.load_example_23();
     }
 }

@@ -175,6 +175,18 @@ export default class load_html{
         }
         return html;
     }
+    load_cmb(data,value,name,empty){
+        var html='';
+        if(data.length > 0){
+            if(empty==true){
+                html+=`<option value=""></option>`;
+            }
+            for(var i=0;i<data.length;i++){
+                html+=`<option value="${data[i][value]}">${data[i][name]}</option>`;
+            }
+        }
+        return html;
+    }
     load_table_api_test(data){
         var html=``;
         if(data && JSON.stringify(data["result"])!="[]"){
@@ -799,7 +811,13 @@ export default class load_html{
         `;
         $(id_list_order).html(html_list);
         total_price= parseInt(total_delivery_prices) + parseInt(total_price_temp);
-        var html_total=` 
+        var html_total=`
+            <h3>Hình thức thanh toán</h3>
+            <div class="">
+                <input type="radio" name="payment" id="payment_COD" value="COD" checked> Thanh toán khi giao hàng <br/>
+                ${(data.length ==1?'<input type="radio" name="payment" id="payment_ATM" value="ATM"> Thanh toán bằng thẻ tín dụng':'')}  
+            </div>
+            <hr/>
             <input type="hidden" id="_total_delivery_prices" value="${total_delivery_prices}" >
             <input type="hidden" id="_total_price_temp" value="${total_price_temp}" >
             <input type="hidden" id="_total_price" value="${total_price }" >
@@ -922,7 +940,7 @@ export default class load_html{
                     <h4>Trạng thái đơn hàng: ${data["info"]["str_status"]}</h4>
                     <div>
                         ${(data["info"]["status"]!="-2" && data["info"]["status"]!="-1" && data["info"]["status"]!="4" && data["info"]["status"]!="3"  ?'<button id="canncel_orders_users" class="btn-hover color-2">Hủy đơn hàng</button>':'')}
-                        <a href="#list_order" class="btn-hover color-2 link_reload">Quay lại danh sách</a>
+                        <a href="#list_order?status=${data["info"]["status"]}" class="btn-hover color-2 link_reload">Quay lại danh sách</a>
                     </div>
                 </div>
             </div>

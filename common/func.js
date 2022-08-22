@@ -476,6 +476,45 @@ export default  class func{
             arr_odd.push(n);
         }
     }
+    async post_token_api_s2retail(){
+        var url='https://api.s2retail.xyz/api/TokenAuth/Authenticate';
+        var para={
+            "userNameOrEmailAddress": "admin",
+            "password": "123qwE",
+            "tenantName": "s2r",
+            "rememberClient": true
+        }
+        var token= await this.post_api2(url,para,'');
+        return (token["result"]["accessToken"]?token["result"]["accessToken"]:'')
+    }
+    list_bank_atm(){
+        return [
+            //{value:'',name:'Không chọn'},
+            {value:'VNPAYQR',name:'Ngân hàng VNPAYQR'},
+            {value:'NCB',name:'Ngân hàng NCB'},
+            {value:'SCB',name:'Ngân hàng SCB'},
+            {value:'SACOMBANK',name:'Ngân hàng SACOMBANK'},
+            {value:'EXIMBANK',name:'Ngân hàng EXIMBANK'},
+            {value:'MSBANK',name:'Ngân hàng MSBANK'},
+            {value:'NAMABANK',name:'Ngân hàng NAMABANK'},
+            {value:'VISA',name:'Ngân hàng VISA'},
+            {value:'VNMART',name:'Ngân hàng VNMART'},
+            {value:'VIETINBANK',name:'Ngân hàng VIETINBANK'},
+            {value:'VIETCOMBANK',name:'Ngân hàng VIETCOMBANK'},
+            {value:'HDBANK',name:'Ngân hàng HDBANK'},
+            {value:'DONGABANK',name:'Ngân hàng Dong A'},
+            {value:'TPBANK',name:'Ngân hàng Tp Bank'},
+            {value:'OJB',name:'Ngân hàng OceanBank'},
+            {value:'BIDV',name:'Ngân hàng BIDV'},
+            {value:'TECHCOMBANK',name:'Ngân hàng Techcombank'},
+            {value:'VPBANK',name:'Ngân hàng VPBank'},
+            {value:'AGRIBANK',name:'Ngân hàng AGRIBANK'},
+            {value:'MBBANK',name:'Ngân hàng MBBank'},
+            {value:'ACB',name:'Ngân hàng ACB'},
+            {value:'OCB',name:'Ngân hàng OCB'},
+            {value:'SHB',name:'Ngân hàng SHB'},
+            {value:'IVB',name:'Ngân hàng IVB'}]
+    }
     
 }
  

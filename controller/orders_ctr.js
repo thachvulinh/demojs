@@ -20,10 +20,16 @@ export default class  orders_ctr{
             return;
         }
         if(typeof this.data ==='undefined'){
-            common.Sweet_Notifi("error", "Thông Báo", "Đơn hàng rỗng, đã chuyển qua trang giỏ hàng","OK", "#3085d6", "error");
+            if($("#count_list_cart").val()=="0"){
+                common.Sweet_Notifi("error", "Thông Báo", "Đơn hàng rỗng đã chuyển qua trang chủ","OK", "#3085d6", "error");
+                router("");
+                location.href=constant.url_default;
+                return;
+            }
+            common.Sweet_Notifi("error", "Thông Báo", "Đơn hàng rỗng đã chuyển qua trang giỏ hàng","OK", "#3085d6", "error");
             router("cart_list");
             location.href=constant.url_default+'cart_list';
-            return
+            return;
         }
         var id_table_list_orders = document.getElementById("table_list_orders");
         var id_total_price_orders = document.getElementById("total_price_orders");
@@ -49,12 +55,12 @@ export default class  orders_ctr{
             product_price_id:(data['product_price_id']?data['product_price_id']:''),
             quantity :data['quantity'],
             user_id:sessionStorage.getItem('us_id'),
-            payment:'COD',
+            payment:data['payment'],
             delivery_price:data["delivery_price"],
             receiver:sessionStorage.getItem('us_name'),
             receiver_phone:sessionStorage.getItem('us_phone'),
-            receiver_address:'351/9 Trung Phú 1, Vĩnh Phú, Thoại Sơn, An Giang',
-            receiver_postcode:'An Giang - Huyện Thoại Sơn - Xã Vĩnh Phú'
+            receiver_address:sessionStorage.getItem('us_address_ship'),
+            receiver_postcode: sessionStorage.getItem('us_postcode')
         }
         await c_func.post_api(constant.url_server+"/orders/insert",data_post,'').then((response) => {const list_products = JSON.parse(response);});
     }
@@ -62,24 +68,64 @@ export default class  orders_ctr{
    event__order_insert_multip(){
         $(document).on("click","#content #complete_orders", function () {
             var arr_id=$("input[name='id[]']").map(function(){return $(this).val();}).get();
-            arr_id.forEach(async function(id,key){
-                var arr={};
-                var product_id=$("#product_id_"+id).val();
-                var product_price_id=$("#product_price_id_"+id).val();
-                var quantity=$("#quantity_"+id).val();
-                var delivery_price=$("#ship_"+id).val();
-                var name=$("#name_"+id).val();
-                var image=$("#image_"+id).val();
-                var price=$("#price_"+id).val();
-                await new  orders_ctr().insert_order({product_id:product_id,product_price_id:product_price_id,quantity:quantity,delivery_price:delivery_price});
-                c_cart_ctr.delete_cart(id);
-            });
-            setTimeout(function(){  
-                common.Sweet_Notifi("success", "Thông Báo", "Đã hoàn tất đơn đặt hàng","OK", "#3085d6", "success");
-                c_load_html.load_cart_menu();
-                router("list_order");
-                location.href=constant.url_default+"list_order";
-            },1000)
+            if(sessionStorage.getItem('us_address_ship') && sessionStorage.getItem('us_postcode')){
+                var payment=$("input[type='radio'][name='payment']:checked").val();
+                if(payment=="COD"){
+                    arr_id.forEach(async function(id,key){
+                        var product_id=$("#product_id_"+id).val();
+                        var product_price_id=$("#product_price_id_"+id).val();
+                        var quantity=$("#quantity_"+id).val();
+                        var delivery_price=$("#ship_"+id).val();
+                        var name=$("#name_"+id).val();
+                        var image=$("#image_"+id).val();
+                        var price=$("#price_"+id).val();
+                        await new  orders_ctr().insert_order({product_id:product_id,product_price_id:product_price_id,quantity:quantity,delivery_price:delivery_price});
+                        c_cart_ctr.delete_cart(id);
+                    });
+                    setTimeout(function(){  
+                        common.Sweet_Notifi("success", "Thông Báo", "Đã hoàn tất đơn đặt hàng","OK", "#3085d6", "success");
+                        c_load_html.load_cart_menu();
+                        router("list_order?status=-3");
+                        location.href=constant.url_default+"list_order?status=-3";
+                    },1000)
+                }
+                else{
+                    var product_id = $("#product_id_"+arr_id[0]).val();
+                    var product_price_id = $("#product_price_id_"+arr_id[0]).val();
+                    var quantity = $("#quantity_"+arr_id[0]).val();
+                    var delivery_price = $("#ship_"+arr_id[0]).val();
+                    var _total_price=$("#_total_price").val();
+                    router('payment_order_atm');
+                    location.href=constant.url_default+"payment_order_atm";
+                    setTimeout(function(){
+                        var date = new Date();
+                        var desc = 'Thanh toan don hang thoi gian: ' + common.Format_DateTime(date,'ddmmyyyyhhiiss');
+                        var list_bank=c_func.list_bank_atm();
+                        $("#product_id").val(product_id);
+                        $("#product_price_id").val(product_price_id);
+                        $("#user_id").val(sessionStorage.getItem('us_id'));
+                        $("#receiver").val(sessionStorage.getItem('us_name'));
+                        $("#receiver_phone").val(sessionStorage.getItem('us_phone'));
+                        $("#receiver_address").val(sessionStorage.getItem('us_address_ship'));
+                        $("#receiver_postcode").val(sessionStorage.getItem('us_postcode'));
+                        $("#quantity").val(quantity);
+                        $("#payment").val(payment);
+                        $("#delivery_price").val(delivery_price);
+                        $("#amount").val(_total_price);
+                        $("#orderType").val("billpayment");
+                        $("#bankCode").html(c_load_html.load_cmb(list_bank,'value','name',false));
+                        $("#orderDescription").html(desc);
+                        $("#payment_total_price").html(common.number_format(_total_price));
+                    },500);
+                    return;
+                }
+            }
+            else{
+                common.Sweet_Notifi("error", "Thông Báo", "Tài khoản chưa có địa chỉ giao hàng không thể đặt hàng. Vui lòng cập nhât nhật.","OK", "#3085d6", "error");
+                setTimeout(function(){router("change_users");},800)
+                location.href=constant.url_default+'change_users';
+                return;
+            }
         });
    }
    //list
