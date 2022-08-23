@@ -33,7 +33,6 @@ setTimeout(function(){
     c_orders_ctr.event_canncel_orders_users();
     c_orders_ctr.event_btn_submit_ok_canncel_orders();
     c_orders_ctr.event_btn_submit_reviews_orders();
-
     c_product_ctr.event_create_orders();
     c_product_ctr.event_create_comment_product();
     c_product_ctr.event_create_reply_comment_product();
@@ -68,5 +67,6 @@ setTimeout(function(){
         }
     })
     update_link_load();
+    c_load_html.load_chat();
     document.getElementById("body").style.display = "block";
 },500);

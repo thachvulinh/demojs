@@ -1,6 +1,6 @@
 
-<div class="container-fluid">
-    <form action="https://onlineshop-client.herokuapp.com/orders/create_payment_url" method="POST" >
+<div class="container-fluid mt-4 mb-4">
+    <form action="http://onlineshop-client.herokuapp.com/orders/create_payment_url" method="POST" >
         <input type="hidden" name="type_template" value="template_2" >
         <input type="hidden" name="product_id" id="product_id" value="">
         <input type="hidden" name="product_price_id" id="product_price_id" value="">
@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center">Thanh toán VNPAY</h3>
-                        <h4 class="text-center"><span id="payment_total_price"></span> VND</h4>
+                        <h4 class="text-center"><span id="payment_total_price" class="font-weight-bold "></span> VND</h4>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label"> Ngân hàng</label>
                             <div class="col-sm-9">

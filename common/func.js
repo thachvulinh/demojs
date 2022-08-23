@@ -40,6 +40,24 @@ export default  class func{
         const div=document.getElementById('script_footer');
         div.parentNode.insertBefore(script, div);
     }
+    dynamicallyLoadScript_default(url,module=true) {
+        var script = document.createElement("script");
+        if(module){
+            script.type="module";
+        }
+        script.src = url;
+        script.className ="ctr_class_default";
+        //document.body.appendChild(script); 
+        const div=document.getElementById('script_footer_default');
+        div.parentNode.insertBefore(script, div);
+    }
+    removedynamicallyScript_default(url){
+        $('.ctr_class_default').map((index,e)=>{
+            if($(e).attr('src')==url){
+                $(e).remove();
+            }
+        })
+    }
     get_api(url,token){
         return new Promise(function (resolve, reject) {
              const xmlhttp=new XMLHttpRequest();
@@ -140,13 +158,12 @@ export default  class func{
             const response = await fetch(url, { 
                 method: 'post', 
                 headers: new Headers({
+                    'Authorization': 'Bearer '+token, 
                     'Access-Control-Allow-Origin':'*',
+                    'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin':'GET, POST, OPTIONS, PUT, PATCH, DELETE',
                     'Access-Control-Allow-Headers':'X-Requested-With,content-type',
                     'Access-Control-Allow-Credentials':true,
-                    'Authorization': 'Bearer '+token, 
-                    'Content-Type': 'application/json'
-                   
                 }), 
                 body:JSON.stringify(para)
             }); 

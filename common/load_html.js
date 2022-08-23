@@ -516,7 +516,6 @@ export default class load_html{
         return html;
     }
     load_comments_product(data,product_id){
-        console.log(data);
         var html=`
             <div class="comment">`;
             if(JSON.stringify(data["list_comment_products"])!="[]"){
@@ -811,11 +810,12 @@ export default class load_html{
         `;
         $(id_list_order).html(html_list);
         total_price= parseInt(total_delivery_prices) + parseInt(total_price_temp);
+        // ${(data.length == 1 ?'<input type="radio" name="payment" id="payment_ATM" value="ATM"> Thanh toán bằng thẻ tín dụng':'')}
         var html_total=`
             <h3>Hình thức thanh toán</h3>
             <div class="">
                 <input type="radio" name="payment" id="payment_COD" value="COD" checked> Thanh toán khi giao hàng <br/>
-                ${(data.length ==1?'<input type="radio" name="payment" id="payment_ATM" value="ATM"> Thanh toán bằng thẻ tín dụng':'')}  
+                  
             </div>
             <hr/>
             <input type="hidden" id="_total_delivery_prices" value="${total_delivery_prices}" >
@@ -986,5 +986,56 @@ export default class load_html{
             </div>
         `;
         return html;
+    }
+    load_chat(){
+        if(sessionStorage.getItem('us_id')){
+            var html=`<button class="btn_chat" onclick="chat.open_chat()"><i class="fa fa-comments-o"></i> Tin nhắn</button>
+            <div class="chat-popup" id="myForm">
+                <div class="cleafix"></div>
+                <div  class="chat_left" >
+                    <h5 class="border-bottom p-2">Tin nhắn </h5>
+                    <div id="list_shop_chat"></div> 
+                </div>
+                <div  class="chat_right">
+                    <h5 class="border-bottom p-2 m-0"><span id="name_shop">Shop</span> <a href="#" class="bg-white float-right mr-2 " onclick="chat.close_chat()"><i class="fa fa-times"></i></a></h5>
+                    <div class="chat_content" >
+                        <div id="chat_content"></div>
+                        <span id="focus_message"></span>
+                    </div> 
+                    <div class="input-group p-1" style="display:none" id="form_chat">
+                        <input type="hidden" name="user_id" id="user_id" value="${sessionStorage.getItem('us_id')}" />
+                        <input type="hidden" name="name_user" id="name_user" value="${sessionStorage.getItem('us_name')}" />
+                        <input type="hidden" name="avatar_user" id="avatar_user" value="${sessionStorage.getItem('us_avatar')}" />
+                        <input type="hidden" name="rank_id_user" id="rank_id_user" value="${sessionStorage.getItem('us_rank_id')}" />
+                        <input type="hidden" name="send_user_id" id="send_user_id" />
+                        <input type="hidden" name="id_socket_send" id="id_socket_send" />
+                        <!-- <div class="input-group-prepend" id="chat_file">
+                            <span class="input-group-text" ><i class="fa fa-link"></i></span>
+                        </div> -->
+                        <input type="text" class="form-control" id="message" name="message">
+                        <div class="input-group-prepend" id="sendMessage">
+                            <span class="input-group-text"><i class="fa fa-play"></i></span>
+                        </div>
+                      </div> 
+                </div>
+                <div class="cleafix"></div>
+            </div>
+            <div id="contextMenu" class="context-menu" style="display:none">
+                <input type="hidden" id="id_chat" name="id_chat" />
+                <ul>
+                    <li id="recall" onclick="chat.recall()"><a href="javascript:void(0)" >Thu hồi</a></li>
+                    <li id="copy" onclick="chat.CopyToClipboard()"><a href="javascript:void(0)" >Sao chép</a></li>
+                </ul>
+            </div>`;
+            $("#chat").html(html);
+            setTimeout(()=>{
+                c_func.dynamicallyLoadScript_default('./assets/js/controller/chat_ctr.js',false);
+            },2000);
+            
+        }
+        else{
+            $("#chat").html("");
+            c_func.removedynamicallyScript_default('./assets/js/controller/chat_ctr.js');
+        }
     }
 }

@@ -36,6 +36,9 @@ export default class  users_ctr{
                     sessionStorage.setItem("us_email",result["data"]["email"]);
                     sessionStorage.setItem("us_phone",result["data"]["phone"]);
                     sessionStorage.setItem("us_rank_id",result["data"]["rank_id"]);
+                    c_load_html.load_menu_account();
+                    c_load_html.load_cart_menu();
+                    c_load_html.load_chat();
                     if(result["data_address"]["use_shipping"]){
                         sessionStorage.setItem("us_address_ship",result["data_address"]["use_shipping"]["address"]);
                         sessionStorage.setItem("us_postcode",result["data_address"]["use_shipping"]["value_province_city"]+" - "+ result["data_address"]["use_shipping"]["value_district"]+" - "+ result["data_address"]["use_shipping"]["value_wards"]);
@@ -48,10 +51,7 @@ export default class  users_ctr{
                     }
                     router("");
                     location.href=constant.url_default;
-                    c_load_html.load_menu_account();
-                    c_load_html.load_cart_menu();
-                    
-                    //common.Sweet_Notifi("success", "Thông báo", 'Đăng nhập thành công',"OK", "#3085d6", "success");
+                    location.reload();
                 }
                 else{
                     c_load_html.load_alert_total("#alert_error_total",result["data"]);
@@ -63,7 +63,10 @@ export default class  users_ctr{
         sessionStorage.clear();
         c_load_html.load_menu_account();
         c_load_html.load_cart_menu();
-        router("product_list");
+        c_load_html.load_chat();
+        router("");
+        location.href=constant.url_default;
+        location.reload();
     }
     event_logout(){
         $(document).on("click","#header #logout", function () {
